@@ -3,6 +3,7 @@ import { RoiProvider, useRoi } from "@/lib/roi-context";
 import { SectionStepper } from "@/components/roi/SectionStepper";
 import { CompanySection } from "@/components/roi/CompanySection";
 import { HiringSection } from "@/components/roi/HiringSection";
+import { ImpactSection } from "@/components/roi/ImpactSection";
 import { Calculator } from "lucide-react";
 
 export const Route = createFileRoute("/")({
