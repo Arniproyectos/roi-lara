@@ -15,11 +15,21 @@ export interface HiringData {
   costPerHire: number | "";
 }
 
+export interface ImpactData {
+  turnoverReductionPct: number;
+  timeToHireReductionPct: number;
+  hrHoursSavedPct: number;
+  costPerHireReductionPct: number;
+  productivityGainPct: number;
+}
+
 export interface RoiState {
   company: CompanyData;
   setCompany: (data: CompanyData) => void;
   hiring: HiringData;
   setHiring: (data: HiringData) => void;
+  impact: ImpactData;
+  setImpact: (data: ImpactData) => void;
   currentSection: number;
   setCurrentSection: (n: number) => void;
 }
@@ -39,16 +49,34 @@ const defaultHiring: HiringData = {
   costPerHire: "",
 };
 
+export const defaultImpact: ImpactData = {
+  turnoverReductionPct: 25,
+  timeToHireReductionPct: 35,
+  hrHoursSavedPct: 40,
+  costPerHireReductionPct: 20,
+  productivityGainPct: 15,
+};
+
 const RoiContext = createContext<RoiState | null>(null);
 
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [company, setCompany] = useState<CompanyData>(defaultCompany);
   const [hiring, setHiring] = useState<HiringData>(defaultHiring);
+  const [impact, setImpact] = useState<ImpactData>(defaultImpact);
   const [currentSection, setCurrentSection] = useState(1);
 
   return (
     <RoiContext.Provider
-      value={{ company, setCompany, hiring, setHiring, currentSection, setCurrentSection }}
+      value={{
+        company,
+        setCompany,
+        hiring,
+        setHiring,
+        impact,
+        setImpact,
+        currentSection,
+        setCurrentSection,
+      }}
     >
       {children}
     </RoiContext.Provider>

@@ -3,6 +3,7 @@ import { RoiProvider, useRoi } from "@/lib/roi-context";
 import { SectionStepper } from "@/components/roi/SectionStepper";
 import { CompanySection } from "@/components/roi/CompanySection";
 import { HiringSection } from "@/components/roi/HiringSection";
+import { ImpactSection } from "@/components/roi/ImpactSection";
 import { Calculator } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -26,7 +27,8 @@ function CalculatorBody() {
       <SectionStepper current={currentSection} />
       {currentSection === 1 && <CompanySection />}
       {currentSection === 2 && <HiringSection />}
-      {currentSection > 2 && (
+      {currentSection === 3 && <ImpactSection />}
+      {currentSection > 3 && (
         <div className="rounded-lg border border-dashed border-border bg-muted/30 p-8 text-center text-sm text-muted-foreground">
           Sección {currentSection} — la construimos en el siguiente paso.
         </div>
