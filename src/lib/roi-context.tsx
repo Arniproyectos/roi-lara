@@ -8,9 +8,18 @@ export interface CompanyData {
   industry: string;
 }
 
+export interface HiringData {
+  hiresPerYear: number | "";
+  daysToHire: number | "";
+  hrHourlyCost: number | "";
+  costPerHire: number | "";
+}
+
 export interface RoiState {
   company: CompanyData;
   setCompany: (data: CompanyData) => void;
+  hiring: HiringData;
+  setHiring: (data: HiringData) => void;
   currentSection: number;
   setCurrentSection: (n: number) => void;
 }
@@ -23,14 +32,24 @@ const defaultCompany: CompanyData = {
   industry: "",
 };
 
+const defaultHiring: HiringData = {
+  hiresPerYear: "",
+  daysToHire: "",
+  hrHourlyCost: "",
+  costPerHire: "",
+};
+
 const RoiContext = createContext<RoiState | null>(null);
 
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [company, setCompany] = useState<CompanyData>(defaultCompany);
+  const [hiring, setHiring] = useState<HiringData>(defaultHiring);
   const [currentSection, setCurrentSection] = useState(1);
 
   return (
-    <RoiContext.Provider value={{ company, setCompany, currentSection, setCurrentSection }}>
+    <RoiContext.Provider
+      value={{ company, setCompany, hiring, setHiring, currentSection, setCurrentSection }}
+    >
       {children}
     </RoiContext.Provider>
   );
