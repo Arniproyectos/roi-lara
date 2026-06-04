@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 
 export interface CompanyData {
   companyName: string;
@@ -23,6 +23,28 @@ export interface ImpactData {
   productivityGainPct: number;
 }
 
+export interface RoiResults {
+  // Inputs normalized
+  employees: number;
+  avgSalary: number;
+  turnoverRate: number;
+  hiresPerYear: number;
+  daysToHire: number;
+  hrHourlyCost: number;
+  costPerHire: number;
+  // Savings buckets (USD/año)
+  turnoverSavings: number;
+  costPerHireSavings: number;
+  hrHoursSavings: number;
+  timeToHireSavings: number;
+  productivitySavings: number;
+  totalSavings: number;
+  // Investment-derived
+  netBenefit: number;
+  roiPct: number | null;
+  paybackMonths: number | null;
+}
+
 export interface RoiState {
   company: CompanyData;
   setCompany: (data: CompanyData) => void;
@@ -30,8 +52,11 @@ export interface RoiState {
   setHiring: (data: HiringData) => void;
   impact: ImpactData;
   setImpact: (data: ImpactData) => void;
+  investment: number | "";
+  setInvestment: (n: number | "") => void;
   currentSection: number;
   setCurrentSection: (n: number) => void;
+  results: RoiResults;
 }
 
 const defaultCompany: CompanyData = {
@@ -59,11 +84,91 @@ export const defaultImpact: ImpactData = {
 
 const RoiContext = createContext<RoiState | null>(null);
 
+function computeResults(
+  company: CompanyData,
+  hiring: HiringData,
+  impact: ImpactData,
+  investment: number | "",
+): RoiResults {
+  const employees = Number(company.employees) || 0;
+  const avgSalary = Number(company.avgSalary) || 0;
+  const turnoverRate = Number(company.turnoverRate) || 0;
+  const hiresPerYear = Number(hiring.hiresPerYear) || 0;
+  const daysToHire = Number(hiring.daysToHire) || 0;
+  const hrHourlyCost = Number(hiring.hrHourlyCost) || 0;
+  const costPerHire = Number(hiring.costPerHire) || 0;
+
+  // Costo de reemplazo ≈ 50% del salario anual (referencia SHRM)
+  const replacementCost = avgSalary * 0.5;
+  const leavers = employees * (turnoverRate / 100);
+  const turnoverSavings =
+    leavers * replacementCost * (impact.turnoverReductionPct / 100);
+
+  // Ahorro directo en costo por contratación
+  const costPerHireSavings =
+    hiresPerYear * costPerHire * (impact.costPerHireReductionPct / 100);
+
+  // Horas de HR ahorradas: asumimos ~2h de trabajo HR por día de proceso
+  const hrHoursPerHire = daysToHire * 2;
+  const hrHoursSavings =
+    hiresPerYear *
+    hrHoursPerHire *
+    hrHourlyCost *
+    (impact.hrHoursSavedPct / 100);
+
+  // Costo de vacante abierta (productividad perdida): salario diario
+  const dailySalary = avgSalary / 365;
+  const daysSaved = daysToHire * (impact.timeToHireReductionPct / 100);
+  const timeToHireSavings = hiresPerYear * daysSaved * dailySalary;
+
+  // Ganancia de productividad en nuevas incorporaciones (ventana de 3 meses)
+  const productivitySavings =
+    hiresPerYear * avgSalary * (impact.productivityGainPct / 100) * (3 / 12);
+
+  const totalSavings =
+    turnoverSavings +
+    costPerHireSavings +
+    hrHoursSavings +
+    timeToHireSavings +
+    productivitySavings;
+
+  const inv = Number(investment) || 0;
+  const netBenefit = totalSavings - inv;
+  const roiPct = inv > 0 ? (netBenefit / inv) * 100 : null;
+  const paybackMonths =
+    inv > 0 && totalSavings > 0 ? (inv / totalSavings) * 12 : null;
+
+  return {
+    employees,
+    avgSalary,
+    turnoverRate,
+    hiresPerYear,
+    daysToHire,
+    hrHourlyCost,
+    costPerHire,
+    turnoverSavings,
+    costPerHireSavings,
+    hrHoursSavings,
+    timeToHireSavings,
+    productivitySavings,
+    totalSavings,
+    netBenefit,
+    roiPct,
+    paybackMonths,
+  };
+}
+
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [company, setCompany] = useState<CompanyData>(defaultCompany);
   const [hiring, setHiring] = useState<HiringData>(defaultHiring);
   const [impact, setImpact] = useState<ImpactData>(defaultImpact);
+  const [investment, setInvestment] = useState<number | "">("");
   const [currentSection, setCurrentSection] = useState(1);
+
+  const results = useMemo(
+    () => computeResults(company, hiring, impact, investment),
+    [company, hiring, impact, investment],
+  );
 
   return (
     <RoiContext.Provider
@@ -74,8 +179,11 @@ export function RoiProvider({ children }: { children: ReactNode }) {
         setHiring,
         impact,
         setImpact,
+        investment,
+        setInvestment,
         currentSection,
         setCurrentSection,
+        results,
       }}
     >
       {children}
