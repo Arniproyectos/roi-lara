@@ -19,8 +19,7 @@ import {
 } from "lucide-react";
 
 export function SummarySection() {
-  const { company, hiring, impact, investment, results, setCurrentSection } =
-    useRoi();
+  const { company, investment, results, setCurrentSection } = useRoi();
 
   const handlePrint = () => {
     if (typeof window !== "undefined") window.print();
