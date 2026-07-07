@@ -14,13 +14,11 @@ import {
   RotateCcw,
   Building2,
   Users,
-  Sparkles,
   CheckCircle2,
 } from "lucide-react";
 
 export function SummarySection() {
-  const { company, hiring, impact, investment, results, setCurrentSection } =
-    useRoi();
+  const { company, investment, results, setCurrentSection } = useRoi();
 
   const handlePrint = () => {
     if (typeof window !== "undefined") window.print();
@@ -38,7 +36,7 @@ export function SummarySection() {
         <CardHeader className="space-y-2">
           <div className="flex items-center gap-2 text-primary print:hidden">
             <span className="text-xs font-semibold uppercase tracking-wider">
-              Sección 5 de 5
+              Sección 4 de 4
             </span>
           </div>
           <CardTitle className="text-2xl">
@@ -133,35 +131,6 @@ export function SummarySection() {
             </dl>
           </div>
 
-          {/* Impacto aplicado */}
-          <div>
-            <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Impacto aplicado
-            </h3>
-            <dl className="grid gap-3 sm:grid-cols-2 text-sm">
-              <SummaryRow
-                label="Reducción de rotación"
-                value={`${impact.turnoverReductionPct}%`}
-              />
-              <SummaryRow
-                label="Reducción time-to-hire"
-                value={`${impact.timeToHireReductionPct}%`}
-              />
-              <SummaryRow
-                label="Horas HR ahorradas"
-                value={`${impact.hrHoursSavedPct}%`}
-              />
-              <SummaryRow
-                label="Reducción costo por hire"
-                value={`${impact.costPerHireReductionPct}%`}
-              />
-              <SummaryRow
-                label="Ganancia de productividad"
-                value={`${impact.productivityGainPct}%`}
-              />
-            </dl>
-          </div>
 
           {/* Desglose */}
           <div>
@@ -225,7 +194,7 @@ export function SummarySection() {
           <div className="print:hidden flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border/60">
             <Button
               variant="ghost"
-              onClick={() => setCurrentSection(4)}
+              onClick={() => setCurrentSection(3)}
               className="gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
