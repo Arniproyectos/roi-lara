@@ -14,7 +14,6 @@ import {
   RotateCcw,
   Building2,
   Users,
-  Sparkles,
   CheckCircle2,
 } from "lucide-react";
 
