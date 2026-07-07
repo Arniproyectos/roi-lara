@@ -37,7 +37,7 @@ export function HiringSection() {
     <Card className="border-border/60 shadow-sm">
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-2 text-primary">
-          <span className="text-xs font-semibold uppercase tracking-wider">Sección 2 de 5</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Sección 2 de 4</span>
         </div>
         <CardTitle className="text-2xl">Tu proceso de contratación actual</CardTitle>
         <CardDescription>
