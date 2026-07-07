@@ -133,35 +133,6 @@ export function SummarySection() {
             </dl>
           </div>
 
-          {/* Impacto aplicado */}
-          <div>
-            <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
-              <Sparkles className="h-4 w-4 text-primary" />
-              Impacto aplicado
-            </h3>
-            <dl className="grid gap-3 sm:grid-cols-2 text-sm">
-              <SummaryRow
-                label="Reducción de rotación"
-                value={`${impact.turnoverReductionPct}%`}
-              />
-              <SummaryRow
-                label="Reducción time-to-hire"
-                value={`${impact.timeToHireReductionPct}%`}
-              />
-              <SummaryRow
-                label="Horas HR ahorradas"
-                value={`${impact.hrHoursSavedPct}%`}
-              />
-              <SummaryRow
-                label="Reducción costo por hire"
-                value={`${impact.costPerHireReductionPct}%`}
-              />
-              <SummaryRow
-                label="Ganancia de productividad"
-                value={`${impact.productivityGainPct}%`}
-              />
-            </dl>
-          </div>
 
           {/* Desglose */}
           <div>
