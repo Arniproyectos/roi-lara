@@ -10,7 +10,6 @@ export interface CompanyData {
 
 export interface HiringData {
   hiresPerYear: number | "";
-  daysToHire: number | "";
   hrHourlyCost: number | "";
   costPerHire: number | "";
 }
@@ -29,7 +28,6 @@ export interface RoiResults {
   avgSalary: number;
   turnoverRate: number;
   hiresPerYear: number;
-  daysToHire: number;
   hrHourlyCost: number;
   costPerHire: number;
   // Savings buckets (USD/año)
@@ -69,7 +67,6 @@ const defaultCompany: CompanyData = {
 
 const defaultHiring: HiringData = {
   hiresPerYear: "",
-  daysToHire: "",
   hrHourlyCost: "",
   costPerHire: "",
 };
@@ -94,7 +91,7 @@ function computeResults(
   const avgSalary = Number(company.avgSalary) || 0;
   const turnoverRate = Number(company.turnoverRate) || 0;
   const hiresPerYear = Number(hiring.hiresPerYear) || 0;
-  const daysToHire = Number(hiring.daysToHire) || 0;
+  const daysToHire = 0;
   const hrHourlyCost = Number(hiring.hrHourlyCost) || 0;
   const costPerHire = Number(hiring.costPerHire) || 0;
 
@@ -143,7 +140,6 @@ function computeResults(
     avgSalary,
     turnoverRate,
     hiresPerYear,
-    daysToHire,
     hrHourlyCost,
     costPerHire,
     turnoverSavings,

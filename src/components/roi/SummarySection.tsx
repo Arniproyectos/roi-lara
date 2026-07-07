@@ -117,10 +117,6 @@ export function SummarySection() {
                 value={results.hiresPerYear.toLocaleString()}
               />
               <SummaryRow
-                label="Días para cubrir vacante"
-                value={`${results.daysToHire} días`}
-              />
-              <SummaryRow
                 label="Costo hora HR"
                 value={formatUSD(results.hrHourlyCost)}
               />

@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { UserPlus, Clock, DollarSign, Receipt, ArrowRight, ArrowLeft } from "lucide-react";
+import { UserPlus, DollarSign, Receipt, ArrowRight, ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 
 export function HiringSection() {
@@ -27,7 +27,6 @@ export function HiringSection() {
 
   const isValid =
     Number(hiring.hiresPerYear) > 0 &&
-    Number(hiring.daysToHire) > 0 &&
     Number(hiring.hrHourlyCost) > 0 &&
     Number(hiring.costPerHire) >= 0;
 
@@ -62,24 +61,6 @@ export function HiringSection() {
             />
             <p className="text-xs text-muted-foreground">
               Vacantes que cubres al año (sumando reemplazos y nuevas posiciones).
-            </p>
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="daysToHire" className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              Tiempo promedio para cubrir vacante (días)
-            </Label>
-            <Input
-              id="daysToHire"
-              type="number"
-              min={1}
-              placeholder="Ej: 35"
-              value={hiring.daysToHire}
-              onChange={(e) => update("daysToHire", numberOrEmpty(e.target.value))}
-            />
-            <p className="text-xs text-muted-foreground">
-              Desde que se publica la vacante hasta que la persona se incorpora.
             </p>
           </div>
 
