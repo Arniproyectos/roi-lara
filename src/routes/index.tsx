@@ -29,9 +29,8 @@ function CalculatorBody() {
       <SectionStepper current={currentSection} />
       {currentSection === 1 && <CompanySection />}
       {currentSection === 2 && <HiringSection />}
-      {currentSection === 3 && <ImpactSection />}
-      {currentSection === 4 && <ResultsSection />}
-      {currentSection === 5 && <SummarySection />}
+      {currentSection === 3 && <ResultsSection />}
+      {currentSection === 4 && <SummarySection />}
     </div>
   );
 }
