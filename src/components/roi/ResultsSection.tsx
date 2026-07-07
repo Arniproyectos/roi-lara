@@ -199,11 +199,11 @@ export function ResultsSection() {
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-border/60">
-          <Button variant="ghost" onClick={() => setCurrentSection(3)} className="gap-2">
+          <Button variant="ghost" onClick={() => setCurrentSection(2)} className="gap-2">
             <ArrowLeft className="h-4 w-4" />
             Atrás
           </Button>
-          <Button onClick={() => setCurrentSection(5)} size="lg" className="gap-2">
+          <Button onClick={() => setCurrentSection(4)} size="lg" className="gap-2">
             Ver resumen
             <ArrowRight className="h-4 w-4" />
           </Button>
