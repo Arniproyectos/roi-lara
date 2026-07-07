@@ -38,7 +38,7 @@ export function SummarySection() {
         <CardHeader className="space-y-2">
           <div className="flex items-center gap-2 text-primary print:hidden">
             <span className="text-xs font-semibold uppercase tracking-wider">
-              Sección 5 de 5
+              Sección 4 de 4
             </span>
           </div>
           <CardTitle className="text-2xl">
