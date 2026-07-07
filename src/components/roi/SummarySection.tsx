@@ -225,7 +225,7 @@ export function SummarySection() {
           <div className="print:hidden flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-border/60">
             <Button
               variant="ghost"
-              onClick={() => setCurrentSection(4)}
+              onClick={() => setCurrentSection(3)}
               className="gap-2"
             >
               <ArrowLeft className="h-4 w-4" />
