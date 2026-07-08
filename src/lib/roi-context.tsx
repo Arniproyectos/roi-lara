@@ -193,9 +193,15 @@ function computeResults(
 export function RoiProvider({ children }: { children: ReactNode }) {
   const [company, setCompany] = useState<CompanyData>(defaultCompany);
   const [hiring, setHiring] = useState<HiringData>(defaultHiring);
-  const [impact, setImpact] = useState<ImpactData>(defaultImpact);
+  const [scenario, setScenarioState] = useState<Scenario>("esperado");
+  const [impact, setImpact] = useState<ImpactData>(SCENARIOS.esperado.impact);
   const [investment, setInvestment] = useState<number | "">("");
   const [currentSection, setCurrentSection] = useState(1);
+
+  const setScenario = (s: Scenario) => {
+    setScenarioState(s);
+    setImpact(SCENARIOS[s].impact);
+  };
 
   const results = useMemo(
     () => computeResults(company, hiring, impact, investment),
@@ -211,6 +217,8 @@ export function RoiProvider({ children }: { children: ReactNode }) {
         setHiring,
         impact,
         setImpact,
+        scenario,
+        setScenario,
         investment,
         setInvestment,
         currentSection,
