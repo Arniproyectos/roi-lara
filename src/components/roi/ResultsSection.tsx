@@ -10,6 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   ArrowLeft,
   ArrowRight,
   TrendingUp,
@@ -19,7 +25,9 @@ import {
   TrendingDown,
   DollarSign,
   CalendarClock,
+  Info,
 } from "lucide-react";
+
 
 export function ResultsSection() {
   const { results, investment, setInvestment, setCurrentSection } = useRoi();
