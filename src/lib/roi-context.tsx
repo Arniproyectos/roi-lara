@@ -34,7 +34,7 @@ export interface RoiResults {
   turnoverSavings: number;
   costPerHireSavings: number;
   hrHoursSavings: number;
-  timeToHireSavings: number;
+  
   productivitySavings: number;
   totalSavings: number;
   // Investment-derived
@@ -113,10 +113,8 @@ function computeResults(
     hrHourlyCost *
     (impact.hrHoursSavedPct / 100);
 
-  // Costo de vacante abierta (productividad perdida): salario diario
-  const dailySalary = avgSalary / 365;
-  const daysSaved = daysToHire * (impact.timeToHireReductionPct / 100);
-  const timeToHireSavings = hiresPerYear * daysSaved * dailySalary;
+
+
 
   // Ganancia de productividad en nuevas incorporaciones (ventana de 3 meses)
   const productivitySavings =
@@ -126,7 +124,6 @@ function computeResults(
     turnoverSavings +
     costPerHireSavings +
     hrHoursSavings +
-    timeToHireSavings +
     productivitySavings;
 
   const inv = Number(investment) || 0;
@@ -145,7 +142,6 @@ function computeResults(
     turnoverSavings,
     costPerHireSavings,
     hrHoursSavings,
-    timeToHireSavings,
     productivitySavings,
     totalSavings,
     netBenefit,

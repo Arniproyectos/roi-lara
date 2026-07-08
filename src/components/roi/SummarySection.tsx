@@ -151,11 +151,6 @@ export function SummarySection() {
                 total={results.totalSavings}
               />
               <BreakdownRow
-                label="Menor time-to-hire"
-                value={results.timeToHireSavings}
-                total={results.totalSavings}
-              />
-              <BreakdownRow
                 label="Ganancia productividad"
                 value={results.productivitySavings}
                 total={results.totalSavings}
