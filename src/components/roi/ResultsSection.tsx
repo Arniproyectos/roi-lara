@@ -13,7 +13,6 @@ import {
   ArrowLeft,
   ArrowRight,
   TrendingUp,
-  Clock,
   Users,
   Wallet,
   Rocket,
@@ -46,13 +45,6 @@ export function ResultsSection() {
       value: results.hrHoursSavings,
       icon: Users,
       hint: "Automatización de screening, agenda y comunicación.",
-    },
-    {
-      key: "tth",
-      label: "Ahorro por menor time-to-hire",
-      value: results.timeToHireSavings,
-      icon: Clock,
-      hint: "Vacantes que se cubren más rápido producen antes.",
     },
     {
       key: "prod",
