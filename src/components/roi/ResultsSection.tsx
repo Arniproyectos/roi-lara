@@ -1,4 +1,4 @@
-import { useRoi, formatUSD } from "@/lib/roi-context";
+import { useRoi, formatUSD, SCENARIOS, type Scenario } from "@/lib/roi-context";
 import {
   Card,
   CardContent,
@@ -30,7 +30,7 @@ import {
 
 
 export function ResultsSection() {
-  const { results, investment, setInvestment, setCurrentSection } = useRoi();
+  const { results, investment, setInvestment, setCurrentSection, scenario, setScenario, impact } = useRoi();
 
   const buckets = [
     {
@@ -91,8 +91,42 @@ export function ResultsSection() {
             {formatUSD(results.totalSavings)}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Suma de los 5 frentes de impacto de la herramienta.
+            Escenario <strong className="text-foreground">{SCENARIOS[scenario].label}</strong> — {SCENARIOS[scenario].description}
           </p>
+        </div>
+
+        {/* Selector de escenario */}
+        <div className="rounded-xl border border-border/60 bg-muted/20 p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div>
+              <p className="text-sm font-semibold text-foreground">Escenario de impacto</p>
+              <p className="text-xs text-muted-foreground">
+                Ajustá el nivel de mejora aplicado a todos los cálculos.
+              </p>
+            </div>
+            <span className="text-xs font-medium text-primary uppercase tracking-wider">
+              Activo: {SCENARIOS[scenario].label}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {(Object.keys(SCENARIOS) as Scenario[]).map((key) => {
+              const active = key === scenario;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setScenario(key)}
+                  className={`rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors ${
+                    active
+                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                      : "border-border/60 bg-background text-foreground hover:border-primary/50 hover:bg-primary/5"
+                  }`}
+                >
+                  {SCENARIOS[key].label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Metodología */}
@@ -122,7 +156,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Costo de reemplazo ≈ 50% del salario anual del puesto."
                 source="SHRM — Human Capital Benchmarking Report"
-                assumption="Reducción de rotación aplicada: 25% (benchmark conservador Gallup para equipos con mejor experiencia de empleado)."
+                assumption={`Reducción de rotación aplicada: ${impact.turnoverReductionPct}% (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.turnoverSavings}
               />
 
@@ -135,7 +169,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Costo promedio por contratación en EE.UU. ≈ USD 4.700."
                 source="SHRM 2022 — Talent Access Report"
-                assumption="Reducción aplicada: 20% (menor gasto en agencias, job boards y procesos duplicados)."
+                assumption={`Reducción aplicada: ${impact.costPerHireReductionPct}% (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.costPerHireSavings}
               />
 
@@ -148,7 +182,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="~2 horas de trabajo de HR por día de proceso (screening, agenda, comunicación)."
                 source="Forbes HR Insights & LinkedIn Talent Solutions"
-                assumption="Ahorro aplicado: 40% del tiempo operativo por automatización."
+                assumption={`Ahorro aplicado: ${impact.hrHoursSavedPct}% del tiempo operativo por automatización (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.hrHoursSavings}
               />
 
@@ -161,7 +195,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Ventana de rampa inicial de 3 meses en la que un nuevo empleado aporta valor incremental."
                 source="Gallup — State of the Global Workplace"
-                assumption="Ganancia de productividad aplicada: 15% durante la rampa."
+                assumption={`Ganancia de productividad / engagement aplicada: ${impact.productivityGainPct}% durante la rampa (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.productivitySavings}
               />
 
