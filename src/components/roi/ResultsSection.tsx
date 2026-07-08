@@ -169,7 +169,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Costo promedio por contratación en EE.UU. ≈ USD 4.700."
                 source="SHRM 2022 — Talent Access Report"
-                assumption="Reducción aplicada: 20% (menor gasto en agencias, job boards y procesos duplicados)."
+                assumption={`Reducción aplicada: ${impact.costPerHireReductionPct}% (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.costPerHireSavings}
               />
 
