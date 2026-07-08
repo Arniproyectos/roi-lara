@@ -195,7 +195,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Ventana de rampa inicial de 3 meses en la que un nuevo empleado aporta valor incremental."
                 source="Gallup — State of the Global Workplace"
-                assumption="Ganancia de productividad aplicada: 15% durante la rampa."
+                assumption={`Ganancia de productividad / engagement aplicada: ${impact.productivityGainPct}% durante la rampa (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.productivitySavings}
               />
 
