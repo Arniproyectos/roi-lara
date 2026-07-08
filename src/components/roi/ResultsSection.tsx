@@ -10,6 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
   ArrowLeft,
   ArrowRight,
   TrendingUp,
@@ -19,7 +25,9 @@ import {
   TrendingDown,
   DollarSign,
   CalendarClock,
+  Info,
 } from "lucide-react";
+
 
 export function ResultsSection() {
   const { results, investment, setInvestment, setCurrentSection } = useRoi();
@@ -86,6 +94,86 @@ export function ResultsSection() {
             Suma de los 5 frentes de impacto de la herramienta.
           </p>
         </div>
+
+        {/* Metodología */}
+        <Accordion type="single" collapsible className="rounded-xl border border-border/60 bg-muted/20 px-4">
+          <AccordionItem value="method" className="border-0">
+            <AccordionTrigger className="text-sm font-semibold text-foreground hover:no-underline">
+              <span className="flex items-center gap-2">
+                <Info className="h-4 w-4 text-primary" />
+                ¿Cómo calculamos estos resultados?
+              </span>
+            </AccordionTrigger>
+            <AccordionContent className="pt-2 pb-4 space-y-4">
+              <p className="text-xs text-muted-foreground">
+                Todos los resultados son <strong>estimaciones</strong> basadas en
+                benchmarks internacionales de HR (SHRM, Gallup, Forbes, LinkedIn
+                Talent Solutions). Los valores reales pueden variar según industria,
+                región y madurez de tus procesos.
+              </p>
+
+              <MethodBlock
+                title="1. Ahorro por menor rotación"
+                formula="Empleados × % rotación × (50% del salario) × % reducción"
+                variables={[
+                  `Empleados: ${results.employees.toLocaleString()}`,
+                  `Rotación anual: ${results.turnoverRate}%`,
+                  `Salario promedio: ${formatUSD(results.avgSalary)}`,
+                ]}
+                benchmark="Costo de reemplazo ≈ 50% del salario anual del puesto."
+                source="SHRM — Human Capital Benchmarking Report"
+                assumption="Reducción de rotación aplicada: 25% (benchmark conservador Gallup para equipos con mejor experiencia de empleado)."
+                result={results.turnoverSavings}
+              />
+
+              <MethodBlock
+                title="2. Ahorro en costo por contratación (Hiring)"
+                formula="Contrataciones/año × Costo por contratación × % reducción"
+                variables={[
+                  `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
+                  `Costo por contratación: ${formatUSD(results.costPerHire)}`,
+                ]}
+                benchmark="Costo promedio por contratación en EE.UU. ≈ USD 4.700."
+                source="SHRM 2022 — Talent Access Report"
+                assumption="Reducción aplicada: 20% (menor gasto en agencias, job boards y procesos duplicados)."
+                result={results.costPerHireSavings}
+              />
+
+              <MethodBlock
+                title="3. Ahorro en horas de HR (Productividad HR)"
+                formula="Contrataciones/año × Horas HR por proceso × Costo hora HR × % ahorro"
+                variables={[
+                  `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
+                  `Costo hora HR: ${formatUSD(results.hrHourlyCost)}`,
+                ]}
+                benchmark="~2 horas de trabajo de HR por día de proceso (screening, agenda, comunicación)."
+                source="Forbes HR Insights & LinkedIn Talent Solutions"
+                assumption="Ahorro aplicado: 40% del tiempo operativo por automatización."
+                result={results.hrHoursSavings}
+              />
+
+              <MethodBlock
+                title="4. Ganancia de productividad de nuevas incorporaciones"
+                formula="Contrataciones/año × Salario promedio × % ganancia × (3/12)"
+                variables={[
+                  `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
+                  `Salario promedio: ${formatUSD(results.avgSalary)}`,
+                ]}
+                benchmark="Ventana de rampa inicial de 3 meses en la que un nuevo empleado aporta valor incremental."
+                source="Gallup — State of the Global Workplace"
+                assumption="Ganancia de productividad aplicada: 15% durante la rampa."
+                result={results.productivitySavings}
+              />
+
+              <div className="rounded-md border border-border/60 bg-background p-3 text-xs text-muted-foreground">
+                <strong className="text-foreground">Nota:</strong> Estas cifras son
+                proyecciones orientativas. Recomendamos validarlas con datos
+                internos de tu operación para un business case final.
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+
 
         {/* Breakdown */}
         <div className="grid gap-3 sm:grid-cols-2">
@@ -204,3 +292,54 @@ export function ResultsSection() {
     </Card>
   );
 }
+
+function MethodBlock({
+  title,
+  formula,
+  variables,
+  benchmark,
+  source,
+  assumption,
+  result,
+}: {
+  title: string;
+  formula: string;
+  variables: string[];
+  benchmark: string;
+  source: string;
+  assumption: string;
+  result: number;
+}) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-background p-4 space-y-2 text-xs">
+      <p className="text-sm font-semibold text-foreground">{title}</p>
+      <div>
+        <span className="font-medium text-foreground">Fórmula: </span>
+        <span className="text-muted-foreground">{formula}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Variables ingresadas: </span>
+        <span className="text-muted-foreground">{variables.join(" · ")}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Benchmark: </span>
+        <span className="text-muted-foreground">{benchmark}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Supuesto aplicado: </span>
+        <span className="text-muted-foreground">{assumption}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Fuente: </span>
+        <span className="text-muted-foreground italic">{source}</span>
+      </div>
+      <div className="flex items-center justify-between pt-2 border-t border-border/60">
+        <span className="text-muted-foreground">Resultado</span>
+        <span className="text-sm font-semibold text-foreground">
+          {formatUSD(result)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
