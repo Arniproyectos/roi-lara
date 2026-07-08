@@ -91,8 +91,42 @@ export function ResultsSection() {
             {formatUSD(results.totalSavings)}
           </p>
           <p className="mt-2 text-sm text-muted-foreground">
-            Suma de los 5 frentes de impacto de la herramienta.
+            Escenario <strong className="text-foreground">{SCENARIOS[scenario].label}</strong> — {SCENARIOS[scenario].description}
           </p>
+        </div>
+
+        {/* Selector de escenario */}
+        <div className="rounded-xl border border-border/60 bg-muted/20 p-4 space-y-3">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div>
+              <p className="text-sm font-semibold text-foreground">Escenario de impacto</p>
+              <p className="text-xs text-muted-foreground">
+                Ajustá el nivel de mejora aplicado a todos los cálculos.
+              </p>
+            </div>
+            <span className="text-xs font-medium text-primary uppercase tracking-wider">
+              Activo: {SCENARIOS[scenario].label}
+            </span>
+          </div>
+          <div className="grid grid-cols-3 gap-2">
+            {(Object.keys(SCENARIOS) as Scenario[]).map((key) => {
+              const active = key === scenario;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setScenario(key)}
+                  className={`rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors ${
+                    active
+                      ? "border-primary bg-primary text-primary-foreground shadow-sm"
+                      : "border-border/60 bg-background text-foreground hover:border-primary/50 hover:bg-primary/5"
+                  }`}
+                >
+                  {SCENARIOS[key].label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Metodología */}
