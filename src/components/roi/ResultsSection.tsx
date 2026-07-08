@@ -1,4 +1,4 @@
-import { useRoi, formatUSD } from "@/lib/roi-context";
+import { useRoi, formatUSD, SCENARIOS, type Scenario } from "@/lib/roi-context";
 import {
   Card,
   CardContent,
