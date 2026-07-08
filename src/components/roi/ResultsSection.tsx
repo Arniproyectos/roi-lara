@@ -182,7 +182,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="~2 horas de trabajo de HR por día de proceso (screening, agenda, comunicación)."
                 source="Forbes HR Insights & LinkedIn Talent Solutions"
-                assumption="Ahorro aplicado: 40% del tiempo operativo por automatización."
+                assumption={`Ahorro aplicado: ${impact.hrHoursSavedPct}% del tiempo operativo por automatización (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.hrHoursSavings}
               />
 
