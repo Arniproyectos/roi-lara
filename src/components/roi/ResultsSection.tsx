@@ -292,3 +292,54 @@ export function ResultsSection() {
     </Card>
   );
 }
+
+function MethodBlock({
+  title,
+  formula,
+  variables,
+  benchmark,
+  source,
+  assumption,
+  result,
+}: {
+  title: string;
+  formula: string;
+  variables: string[];
+  benchmark: string;
+  source: string;
+  assumption: string;
+  result: number;
+}) {
+  return (
+    <div className="rounded-lg border border-border/60 bg-background p-4 space-y-2 text-xs">
+      <p className="text-sm font-semibold text-foreground">{title}</p>
+      <div>
+        <span className="font-medium text-foreground">Fórmula: </span>
+        <span className="text-muted-foreground">{formula}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Variables ingresadas: </span>
+        <span className="text-muted-foreground">{variables.join(" · ")}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Benchmark: </span>
+        <span className="text-muted-foreground">{benchmark}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Supuesto aplicado: </span>
+        <span className="text-muted-foreground">{assumption}</span>
+      </div>
+      <div>
+        <span className="font-medium text-foreground">Fuente: </span>
+        <span className="text-muted-foreground italic">{source}</span>
+      </div>
+      <div className="flex items-center justify-between pt-2 border-t border-border/60">
+        <span className="text-muted-foreground">Resultado</span>
+        <span className="text-sm font-semibold text-foreground">
+          {formatUSD(result)}
+        </span>
+      </div>
+    </div>
+  );
+}
+
