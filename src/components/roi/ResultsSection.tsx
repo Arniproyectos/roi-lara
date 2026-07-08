@@ -30,7 +30,7 @@ import {
 
 
 export function ResultsSection() {
-  const { results, investment, setInvestment, setCurrentSection } = useRoi();
+  const { results, investment, setInvestment, setCurrentSection, scenario, setScenario, impact } = useRoi();
 
   const buckets = [
     {
