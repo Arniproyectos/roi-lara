@@ -43,6 +43,44 @@ export interface RoiResults {
   paybackMonths: number | null;
 }
 
+export type Scenario = "conservador" | "esperado" | "optimista";
+
+export const SCENARIOS: Record<Scenario, { label: string; description: string; impact: ImpactData }> = {
+  conservador: {
+    label: "Conservador",
+    description: "Estimación prudente basada en el piso de los benchmarks.",
+    impact: {
+      turnoverReductionPct: 5,
+      timeToHireReductionPct: 15,
+      hrHoursSavedPct: 20,
+      costPerHireReductionPct: 10,
+      productivityGainPct: 3,
+    },
+  },
+  esperado: {
+    label: "Esperado",
+    description: "Escenario más probable en implementaciones típicas.",
+    impact: {
+      turnoverReductionPct: 10,
+      timeToHireReductionPct: 30,
+      hrHoursSavedPct: 35,
+      costPerHireReductionPct: 20,
+      productivityGainPct: 7,
+    },
+  },
+  optimista: {
+    label: "Optimista",
+    description: "Mejor caso con adopción alta y procesos maduros.",
+    impact: {
+      turnoverReductionPct: 15,
+      timeToHireReductionPct: 45,
+      hrHoursSavedPct: 50,
+      costPerHireReductionPct: 30,
+      productivityGainPct: 10,
+    },
+  },
+};
+
 export interface RoiState {
   company: CompanyData;
   setCompany: (data: CompanyData) => void;
@@ -50,6 +88,8 @@ export interface RoiState {
   setHiring: (data: HiringData) => void;
   impact: ImpactData;
   setImpact: (data: ImpactData) => void;
+  scenario: Scenario;
+  setScenario: (s: Scenario) => void;
   investment: number | "";
   setInvestment: (n: number | "") => void;
   currentSection: number;
