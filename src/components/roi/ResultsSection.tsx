@@ -156,7 +156,7 @@ export function ResultsSection() {
                 ]}
                 benchmark="Costo de reemplazo ≈ 50% del salario anual del puesto."
                 source="SHRM — Human Capital Benchmarking Report"
-                assumption="Reducción de rotación aplicada: 25% (benchmark conservador Gallup para equipos con mejor experiencia de empleado)."
+                assumption={`Reducción de rotación aplicada: ${impact.turnoverReductionPct}% (escenario ${SCENARIOS[scenario].label}).`}
                 result={results.turnoverSavings}
               />
 
