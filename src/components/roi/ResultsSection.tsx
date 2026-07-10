@@ -35,21 +35,21 @@ export function ResultsSection() {
   const buckets = [
     {
       key: "turnover",
-      label: "Ahorro por menor rotación",
+      label: "Pérdida evitada por rotación",
       value: results.turnoverSavings,
       icon: TrendingDown,
       hint: "Menos reemplazos = menos costo de pérdida y recontratación.",
     },
     {
       key: "cph",
-      label: "Ahorro en costo por contratación",
+      label: "Costo de contratación reducido",
       value: results.costPerHireSavings,
       icon: Wallet,
       hint: "Menos gasto en agencias, job boards y procesos repetidos.",
     },
     {
       key: "hr",
-      label: "Ahorro en horas de HR",
+      label: "Horas de HR recuperadas",
       value: results.hrHoursSavings,
       icon: Users,
       hint: "Automatización de screening, agenda y comunicación.",
@@ -73,19 +73,20 @@ export function ResultsSection() {
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-2 text-primary">
           <span className="text-xs font-semibold uppercase tracking-wider">
-            Sección 3 de 4
+            Paso 3 de 4
           </span>
         </div>
-        <CardTitle className="text-2xl">Tus resultados</CardTitle>
+        <CardTitle className="text-2xl">Valor recuperable mediante tecnología</CardTitle>
         <CardDescription>
-          Así se ve el retorno estimado anual en base a los datos cargados.
+          Este es el valor anual que tu organización podría recuperar al optimizar rotación, costos
+          de contratación y productividad del equipo de RRHH.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
         {/* Hero total */}
         <div className="rounded-xl border border-primary/30 bg-gradient-to-br from-primary/10 via-primary/5 to-accent/10 p-6 text-center">
           <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-            Ahorro anual estimado
+            Valor recuperable anual estimado
           </p>
           <p className="mt-2 text-4xl sm:text-5xl font-bold tracking-tight text-foreground">
             {formatUSD(results.totalSavings)}
@@ -99,9 +100,9 @@ export function ResultsSection() {
         <div className="rounded-xl border border-border/60 bg-muted/20 p-4 space-y-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
             <div>
-              <p className="text-sm font-semibold text-foreground">Escenario de impacto</p>
+              <p className="text-sm font-semibold text-foreground">Escenario de valor recuperable</p>
               <p className="text-xs text-muted-foreground">
-                Ajustá el nivel de mejora aplicado a todos los cálculos.
+                Ajustá el nivel de optimización aplicado a todos los cálculos.
               </p>
             </div>
             <span className="text-xs font-medium text-primary uppercase tracking-wider">
@@ -135,7 +136,7 @@ export function ResultsSection() {
             <AccordionTrigger className="text-sm font-semibold text-foreground hover:no-underline">
               <span className="flex items-center gap-2">
                 <Info className="h-4 w-4 text-primary" />
-                ¿Cómo calculamos estos resultados?
+                ¿Cómo calculamos el valor recuperable?
               </span>
             </AccordionTrigger>
             <AccordionContent className="pt-2 pb-4 space-y-4">
@@ -147,7 +148,7 @@ export function ResultsSection() {
               </p>
 
               <MethodBlock
-                title="1. Ahorro por menor rotación"
+                title="1. Valor recuperable por menor rotación"
                 formula="Empleados × % rotación × (50% del salario) × % reducción"
                 variables={[
                   `Empleados: ${results.employees.toLocaleString()}`,
@@ -161,7 +162,7 @@ export function ResultsSection() {
               />
 
               <MethodBlock
-                title="2. Ahorro en costo por contratación (Hiring)"
+                title="2. Reducción de costos de contratación"
                 formula="Contrataciones/año × Costo por contratación × % reducción"
                 variables={[
                   `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
@@ -174,7 +175,7 @@ export function ResultsSection() {
               />
 
               <MethodBlock
-                title="3. Ahorro en horas de HR (Productividad HR)"
+                title="3. Recuperación de horas de HR"
                 formula="Contrataciones/año × Horas HR por proceso × Costo hora HR × % ahorro"
                 variables={[
                   `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
@@ -187,7 +188,7 @@ export function ResultsSection() {
               />
 
               <MethodBlock
-                title="4. Ganancia de productividad de nuevas incorporaciones"
+                title="4. Ganancia de productividad / engagement"
                 formula="Contrataciones/año × Salario promedio × % ganancia × (3/12)"
                 variables={[
                   `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
@@ -254,7 +255,7 @@ export function ResultsSection() {
           <div className="grid gap-2 sm:max-w-xs">
             <Label htmlFor="investment" className="flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-muted-foreground" />
-              Inversión anual en la herramienta (USD)
+              Inversión anual en tecnología de RRHH (USD)
             </Label>
             <Input
               id="investment"
@@ -265,7 +266,7 @@ export function ResultsSection() {
               onChange={(e) => setInvestment(numberOrEmpty(e.target.value))}
             />
             <p className="text-xs text-muted-foreground">
-              Cargá el costo anual de licencias para calcular ROI y payback.
+              Cargá el costo estimado de la plataforma para calcular el ROI esperado.
             </p>
           </div>
 
@@ -307,7 +308,7 @@ export function ResultsSection() {
         </div>
 
         <div className="rounded-lg border border-dashed border-border bg-muted/30 p-4 text-xs text-muted-foreground">
-          Supuestos: costo de reemplazo ≈ 50% del salario anual (referencia SHRM);
+          Supuestos del diagnóstico: costo de reemplazo ≈ 50% del salario anual (referencia SHRM);
           ~2h de trabajo de HR por día de proceso; ventana de productividad
           de 3 meses para nuevas incorporaciones.
         </div>
@@ -318,7 +319,7 @@ export function ResultsSection() {
             Atrás
           </Button>
           <Button onClick={() => setCurrentSection(4)} size="lg" className="gap-2">
-            Ver resumen
+            Ver ROI esperado
             <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
