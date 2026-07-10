@@ -3,9 +3,9 @@ import { cn } from "@/lib/utils";
 
 const SECTIONS = [
   { id: 1, label: "Empresa" },
-  { id: 2, label: "Contratación" },
-  { id: 3, label: "Resultados" },
-  { id: 4, label: "Resumen" },
+  { id: 2, label: "Pérdidas" },
+  { id: 3, label: "Recuperable" },
+  { id: 4, label: "ROI" },
 ];
 
 export function SectionStepper({ current }: { current: number }) {
