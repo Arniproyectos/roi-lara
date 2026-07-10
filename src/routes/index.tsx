@@ -6,7 +6,7 @@ import { HiringSection } from "@/components/roi/HiringSection";
 
 import { ResultsSection } from "@/components/roi/ResultsSection";
 import { SummarySection } from "@/components/roi/SummarySection";
-import { Stethoscope } from "lucide-react";
+import { Calculator } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -41,7 +41,7 @@ function Index() {
       <header className="border-b border-border/60 bg-card/50 backdrop-blur">
         <div className="mx-auto max-w-5xl px-6 py-4 flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Stethoscope className="h-5 w-5" />
+            <Calculator className="h-5 w-5" />
           </div>
           <div>
             <p className="text-sm font-semibold text-foreground">Diagnóstico Económico de RRHH</p>
