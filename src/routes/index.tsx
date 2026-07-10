@@ -6,16 +6,16 @@ import { HiringSection } from "@/components/roi/HiringSection";
 
 import { ResultsSection } from "@/components/roi/ResultsSection";
 import { SummarySection } from "@/components/roi/SummarySection";
-import { Calculator } from "lucide-react";
+import { Stethoscope } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Calculadora de ROI — HR Tech" },
+      { title: "Diagnóstico económico de RRHH — HR Tech" },
       {
         name: "description",
         content:
-          "Calcula el retorno de inversión de tu plataforma HR Tech: ahorro por rotación, contratación y productividad.",
+          "Diagnosticá el impacto financiero de RRHH: pérdidas por rotación, costos de contratación y valor recuperable con tecnología.",
       },
     ],
   }),
@@ -41,10 +41,10 @@ function Index() {
       <header className="border-b border-border/60 bg-card/50 backdrop-blur">
         <div className="mx-auto max-w-5xl px-6 py-4 flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <Calculator className="h-5 w-5" />
+            <Stethoscope className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-foreground">ROI Calculator</p>
+            <p className="text-sm font-semibold text-foreground">Diagnóstico Económico de RRHH</p>
             <p className="text-xs text-muted-foreground">HR Tech — Costo de rotación</p>
           </div>
         </div>
@@ -53,11 +53,11 @@ function Index() {
       <main className="px-6 py-10 sm:py-16">
         <div className="mx-auto max-w-3xl mb-10 text-center space-y-3">
           <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
-            Descubre el ROI real de tu inversión
+            Descubre el impacto económico de tu área de RRHH
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto">
-            En menos de 2 minutos calcula cuánto te ahorras al reducir rotación, optimizar
-            contrataciones y recuperar tiempo de tu equipo de HR.
+            En 4 pasos diagnosticamos el costo de rotación, identificamos pérdidas económicas y
+            proyectamos el valor recuperable con tecnología.
           </p>
         </div>
 
