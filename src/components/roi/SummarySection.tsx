@@ -36,14 +36,15 @@ export function SummarySection() {
         <CardHeader className="space-y-2">
           <div className="flex items-center gap-2 text-primary print:hidden">
             <span className="text-xs font-semibold uppercase tracking-wider">
-              Sección 4 de 4
+              Paso 4 de 4
             </span>
           </div>
           <CardTitle className="text-2xl">
-            Resumen para {company.companyName || "tu empresa"}
+            ROI esperado para {company.companyName || "tu empresa"}
           </CardTitle>
           <CardDescription>
-            Un panorama completo de los datos cargados y el retorno proyectado.
+            Panorama completo de pérdidas identificadas, valor recuperable y retorno esperado de la
+            inversión en tecnología de RRHH.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -52,7 +53,7 @@ export function SummarySection() {
             <div className="grid gap-6 sm:grid-cols-3">
               <div>
                 <p className="text-xs font-semibold uppercase tracking-wider text-primary">
-                  Ahorro anual
+                  Valor recuperable anual
                 </p>
                 <p className="mt-1 text-3xl font-bold text-foreground">
                   {formatUSD(results.totalSavings)}
@@ -109,7 +110,7 @@ export function SummarySection() {
           <div>
             <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
               <Users className="h-4 w-4 text-primary" />
-              Proceso de contratación actual
+              Variables de pérdidas económicas
             </h3>
             <dl className="grid gap-3 sm:grid-cols-2 text-sm">
               <SummaryRow
@@ -132,7 +133,7 @@ export function SummarySection() {
           <div>
             <h3 className="flex items-center gap-2 text-sm font-semibold text-foreground mb-3">
               <CheckCircle2 className="h-4 w-4 text-primary" />
-              Desglose del ahorro anual
+              Desglose del valor recuperable
             </h3>
             <div className="rounded-lg border border-border/60 overflow-hidden">
               <BreakdownRow
@@ -167,13 +168,13 @@ export function SummarySection() {
           {hasInvestment && (
             <div className="rounded-lg border border-border/60 bg-muted/20 p-4 text-sm">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="text-muted-foreground">Inversión anual</span>
+                <span className="text-muted-foreground">Inversión anual estimada</span>
                 <span className="font-medium text-foreground">
                   {formatUSD(Number(investment))}
                 </span>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2 mt-1">
-                <span className="text-muted-foreground">Beneficio neto</span>
+                <span className="text-muted-foreground">Beneficio neto esperado</span>
                 <span className="font-semibold text-foreground">
                   {formatUSD(results.netBenefit)}
                 </span>
@@ -194,7 +195,7 @@ export function SummarySection() {
             <div className="flex flex-wrap items-center gap-2">
               <Button variant="outline" onClick={handleReset} className="gap-2">
                 <RotateCcw className="h-3.5 w-3.5" />
-                Nueva simulación
+                Nuevo diagnóstico
               </Button>
               <Button variant="outline" onClick={handlePrint} className="gap-2">
                 <Printer className="h-4 w-4" />
@@ -203,19 +204,19 @@ export function SummarySection() {
               <Button asChild size="lg" className="gap-2">
                 <a
                   href={`mailto:?subject=${encodeURIComponent(
-                    `ROI estimado para ${company.companyName || "tu empresa"}`,
+                    `Diagnóstico económico para ${company.companyName || "tu empresa"}`,
                   )}&body=${encodeURIComponent(
-                    `Hola,\n\nAhorro anual estimado: ${formatUSD(
+                    `Hola,\n\nValor recuperable anual estimado: ${formatUSD(
                       results.totalSavings,
                     )}\n${
                       results.roiPct !== null
-                        ? `ROI: ${results.roiPct.toFixed(0)}%\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
+                        ? `ROI esperado: ${results.roiPct.toFixed(0)}%\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
                         : ""
-                    }\nMe gustaría agendar una conversación para profundizar.`,
+                    }\nMe gustaría agendar una conversación para profundizar el diagnóstico.`,
                   )}`}
                 >
                   <Mail className="h-4 w-4" />
-                  Hablar con un especialista
+                  Consultar con un especialista
                 </a>
               </Button>
             </div>
