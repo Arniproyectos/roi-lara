@@ -80,7 +80,7 @@ export function SummarySection() {
             </div>
             {!hasInvestment && (
               <p className="mt-3 text-xs text-muted-foreground">
-                Cargá la inversión anual en la sección anterior para ver ROI y payback.
+                Cargá la inversión anual en la sección anterior para ver ROI esperado y payback.
               </p>
             )}
           </div>
