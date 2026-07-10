@@ -24,12 +24,12 @@ export function CompanySection() {
     <Card className="border-border/60 shadow-sm">
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-2 text-primary">
-          <span className="text-xs font-semibold uppercase tracking-wider">Sección 1 de 4</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Paso 1 de 4</span>
         </div>
-        <CardTitle className="text-2xl">Datos de la empresa</CardTitle>
+        <CardTitle className="text-2xl">Diagnóstico de la empresa</CardTitle>
         <CardDescription>
-          Cuéntanos sobre tu organización. Usaremos estos datos para calcular el impacto económico
-          real del costo de rotación y el ROI potencial de nuestra herramienta.
+          Comenzamos conociendo tu organización. Estos datos nos permiten dimensionar el impacto
+          económico actual de la rotación y la ineficiencia en RRHH.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -116,7 +116,7 @@ export function CompanySection() {
 
         <div className="flex items-center justify-between pt-4 border-t border-border/60">
           <p className="text-xs text-muted-foreground">
-            Tus datos solo se usan para este cálculo y no se almacenan.
+            Tus datos se usan solo para este diagnóstico y no se almacenan.
           </p>
           <Button
             onClick={() => setCurrentSection(2)}

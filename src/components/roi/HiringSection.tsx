@@ -36,12 +36,12 @@ export function HiringSection() {
     <Card className="border-border/60 shadow-sm">
       <CardHeader className="space-y-2">
         <div className="flex items-center gap-2 text-primary">
-          <span className="text-xs font-semibold uppercase tracking-wider">Sección 2 de 4</span>
+          <span className="text-xs font-semibold uppercase tracking-wider">Paso 2 de 4</span>
         </div>
-        <CardTitle className="text-2xl">Tu proceso de contratación actual</CardTitle>
+        <CardTitle className="text-2xl">Identificación de pérdidas económicas</CardTitle>
         <CardDescription>
-          Estos datos nos permiten calcular cuánto tiempo y dinero está costando hoy tu proceso, y
-          qué parte se puede optimizar con la herramienta.
+          Ahora cuantificamos cuánto cuesta hoy tu proceso de contratación y gestión de HR en tiempo
+          y dinero, y dónde se pueden reducir las pérdidas.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
