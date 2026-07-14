@@ -159,6 +159,32 @@ export function ResultsSection() {
           </p>
         </div>
 
+        {/* Principal oportunidad detectada */}
+        {topBucket.value > 0 && (
+          <div className="rounded-xl border border-primary/40 bg-primary/5 p-5">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary shrink-0">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  Principal oportunidad detectada
+                </p>
+                <p className="mt-1 text-lg font-semibold text-foreground">
+                  {topBucket.problem}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Representa <strong className="text-foreground">{topShare.toFixed(0)}%</strong> del valor recuperable total,
+                  con un potencial de{" "}
+                  <strong className="text-foreground">{formatUSD(topBucket.value)}</strong>{" "}
+                  al año. Es el driver con mayor impacto económico para tu organización en el escenario{" "}
+                  <strong className="text-foreground">{SCENARIOS[scenario].label}</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Selector de escenario */}
         <div className="rounded-xl border border-border/60 bg-muted/20 p-4 space-y-3">
           <div className="flex items-center justify-between gap-2 flex-wrap">
