@@ -16,6 +16,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   ArrowLeft,
   ArrowRight,
   TrendingUp,
@@ -26,42 +34,97 @@ import {
   DollarSign,
   CalendarClock,
   Info,
+  Sparkles,
 } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 
 export function ResultsSection() {
   const { results, investment, setInvestment, setCurrentSection, scenario, setScenario, impact } = useRoi();
+
+  const turnoverAnnualCost =
+    results.employees * (results.turnoverRate / 100) * results.avgSalary * 0.5;
+  const cphAnnualCost = results.hiresPerYear * results.costPerHire;
+  const hrAnnualCost =
+    impact.hrHoursSavedPct > 0
+      ? results.hrHoursSavings / (impact.hrHoursSavedPct / 100)
+      : 0;
+  const prodAnnualCost =
+    results.hiresPerYear * results.avgSalary * (3 / 12);
 
   const buckets = [
     {
       key: "turnover",
       label: "Pérdida evitada por rotación",
       value: results.turnoverSavings,
+      annualCost: turnoverAnnualCost,
       icon: TrendingDown,
+      color: "hsl(var(--primary))",
       hint: "Menos reemplazos = menos costo de pérdida y recontratación.",
+      problem: "Rotación de empleados",
     },
     {
       key: "cph",
       label: "Costo de contratación reducido",
       value: results.costPerHireSavings,
+      annualCost: cphAnnualCost,
       icon: Wallet,
+      color: "hsl(var(--accent))",
       hint: "Menos gasto en agencias, job boards y procesos repetidos.",
+      problem: "Costos de contratación",
     },
     {
       key: "hr",
       label: "Horas de HR recuperadas",
       value: results.hrHoursSavings,
+      annualCost: hrAnnualCost,
       icon: Users,
+      color: "hsl(var(--muted-foreground))",
       hint: "Automatización de screening, agenda y comunicación.",
+      problem: "Carga operativa de HR",
     },
     {
       key: "prod",
       label: "Ganancia de productividad",
       value: results.productivitySavings,
+      annualCost: prodAnnualCost,
       icon: Rocket,
+      color: "hsl(var(--chart-4, 220 70% 50%))",
       hint: "Nuevas incorporaciones aportan más en su rampa inicial.",
+      problem: "Productividad en rampa inicial",
     },
   ];
+
+  const totalAnnualCost = buckets.reduce((acc, b) => acc + b.annualCost, 0);
+  const topBucket = [...buckets].sort((a, b) => b.value - a.value)[0];
+  const topShare =
+    results.totalSavings > 0 ? (topBucket.value / results.totalSavings) * 100 : 0;
+
+  const priorityFor = (share: number): { label: string; className: string } => {
+    if (share >= 40)
+      return {
+        label: "Muy alto",
+        className: "bg-red-500/15 text-red-600 border-red-500/30",
+      };
+    if (share >= 25)
+      return {
+        label: "Alto",
+        className: "bg-orange-500/15 text-orange-600 border-orange-500/30",
+      };
+    if (share >= 10)
+      return {
+        label: "Medio",
+        className: "bg-yellow-500/15 text-yellow-700 border-yellow-500/30",
+      };
+    return {
+      label: "Bajo",
+      className: "bg-emerald-500/15 text-emerald-600 border-emerald-500/30",
+    };
+  };
+
+  const pieData = buckets
+    .filter((b) => b.value > 0)
+    .map((b) => ({ name: b.problem, value: Math.round(b.value), color: b.color }));
 
   const numberOrEmpty = (v: string): number | "" =>
     v === "" ? "" : Math.max(0, Number(v));
@@ -95,6 +158,32 @@ export function ResultsSection() {
             Escenario <strong className="text-foreground">{SCENARIOS[scenario].label}</strong> — {SCENARIOS[scenario].description}
           </p>
         </div>
+
+        {/* Principal oportunidad detectada */}
+        {topBucket.value > 0 && (
+          <div className="rounded-xl border border-primary/40 bg-primary/5 p-5">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/15 text-primary shrink-0">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  Principal oportunidad detectada
+                </p>
+                <p className="mt-1 text-lg font-semibold text-foreground">
+                  {topBucket.problem}
+                </p>
+                <p className="mt-1 text-sm text-muted-foreground">
+                  Representa <strong className="text-foreground">{topShare.toFixed(0)}%</strong> del valor recuperable total,
+                  con un potencial de{" "}
+                  <strong className="text-foreground">{formatUSD(topBucket.value)}</strong>{" "}
+                  al año. Es el driver con mayor impacto económico para tu organización en el escenario{" "}
+                  <strong className="text-foreground">{SCENARIOS[scenario].label}</strong>.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Selector de escenario */}
         <div className="rounded-xl border border-border/60 bg-muted/20 p-4 space-y-3">
@@ -249,6 +338,110 @@ export function ResultsSection() {
             );
           })}
         </div>
+
+        {/* Distribución de pérdidas + tabla ejecutiva */}
+        {pieData.length > 0 && (
+          <div className="grid gap-4 lg:grid-cols-5">
+            <div className="lg:col-span-2 rounded-xl border border-border/60 bg-card p-4">
+              <p className="text-sm font-semibold text-foreground">
+                Distribución de pérdidas económicas
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Dónde se concentra el valor recuperable.
+              </p>
+              <div className="h-64 mt-3">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      dataKey="value"
+                      nameKey="name"
+                      innerRadius={45}
+                      outerRadius={80}
+                      paddingAngle={2}
+                    >
+                      {pieData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v: number) => formatUSD(v)}
+                      contentStyle={{
+                        background: "hsl(var(--background))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: 8,
+                        fontSize: 12,
+                      }}
+                    />
+                    <Legend
+                      verticalAlign="bottom"
+                      height={36}
+                      wrapperStyle={{ fontSize: 11 }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="lg:col-span-3 rounded-xl border border-border/60 bg-card p-4 overflow-x-auto">
+              <p className="text-sm font-semibold text-foreground">
+                Informe ejecutivo por driver
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Costo anual actual, ahorro potencial y prioridad de acción.
+              </p>
+              <Table className="mt-3">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs">Problema</TableHead>
+                    <TableHead className="text-xs text-right">Costo anual</TableHead>
+                    <TableHead className="text-xs text-right">Ahorro potencial</TableHead>
+                    <TableHead className="text-xs text-center">Prioridad</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {buckets.map((b) => {
+                    const share =
+                      results.totalSavings > 0
+                        ? (b.value / results.totalSavings) * 100
+                        : 0;
+                    const prio = priorityFor(share);
+                    return (
+                      <TableRow key={b.key}>
+                        <TableCell className="text-sm font-medium">
+                          {b.problem}
+                        </TableCell>
+                        <TableCell className="text-sm text-right tabular-nums">
+                          {formatUSD(b.annualCost)}
+                        </TableCell>
+                        <TableCell className="text-sm text-right tabular-nums font-semibold text-foreground">
+                          {formatUSD(b.value)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <span
+                            className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${prio.className}`}
+                          >
+                            {prio.label}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  <TableRow className="border-t-2">
+                    <TableCell className="text-sm font-semibold">Total</TableCell>
+                    <TableCell className="text-sm text-right font-semibold tabular-nums">
+                      {formatUSD(totalAnnualCost)}
+                    </TableCell>
+                    <TableCell className="text-sm text-right font-semibold tabular-nums text-primary">
+                      {formatUSD(results.totalSavings)}
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        )}
 
         {/* Inversión + ROI */}
         <div className="rounded-xl border border-border/60 bg-muted/20 p-5 space-y-4">
