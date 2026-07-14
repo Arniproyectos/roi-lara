@@ -42,36 +42,89 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 export function ResultsSection() {
   const { results, investment, setInvestment, setCurrentSection, scenario, setScenario, impact } = useRoi();
 
+  const turnoverAnnualCost =
+    results.employees * (results.turnoverRate / 100) * results.avgSalary * 0.5;
+  const cphAnnualCost = results.hiresPerYear * results.costPerHire;
+  const hrAnnualCost =
+    impact.hrHoursSavedPct > 0
+      ? results.hrHoursSavings / (impact.hrHoursSavedPct / 100)
+      : 0;
+  const prodAnnualCost =
+    results.hiresPerYear * results.avgSalary * (3 / 12);
+
   const buckets = [
     {
       key: "turnover",
       label: "Pérdida evitada por rotación",
       value: results.turnoverSavings,
+      annualCost: turnoverAnnualCost,
       icon: TrendingDown,
+      color: "hsl(var(--primary))",
       hint: "Menos reemplazos = menos costo de pérdida y recontratación.",
+      problem: "Rotación de empleados",
     },
     {
       key: "cph",
       label: "Costo de contratación reducido",
       value: results.costPerHireSavings,
+      annualCost: cphAnnualCost,
       icon: Wallet,
+      color: "hsl(var(--accent))",
       hint: "Menos gasto en agencias, job boards y procesos repetidos.",
+      problem: "Costos de contratación",
     },
     {
       key: "hr",
       label: "Horas de HR recuperadas",
       value: results.hrHoursSavings,
+      annualCost: hrAnnualCost,
       icon: Users,
+      color: "hsl(var(--muted-foreground))",
       hint: "Automatización de screening, agenda y comunicación.",
+      problem: "Carga operativa de HR",
     },
     {
       key: "prod",
       label: "Ganancia de productividad",
       value: results.productivitySavings,
+      annualCost: prodAnnualCost,
       icon: Rocket,
+      color: "hsl(var(--chart-4, 220 70% 50%))",
       hint: "Nuevas incorporaciones aportan más en su rampa inicial.",
+      problem: "Productividad en rampa inicial",
     },
   ];
+
+  const totalAnnualCost = buckets.reduce((acc, b) => acc + b.annualCost, 0);
+  const topBucket = [...buckets].sort((a, b) => b.value - a.value)[0];
+  const topShare =
+    results.totalSavings > 0 ? (topBucket.value / results.totalSavings) * 100 : 0;
+
+  const priorityFor = (share: number): { label: string; className: string } => {
+    if (share >= 40)
+      return {
+        label: "Muy alto",
+        className: "bg-red-500/15 text-red-600 border-red-500/30",
+      };
+    if (share >= 25)
+      return {
+        label: "Alto",
+        className: "bg-orange-500/15 text-orange-600 border-orange-500/30",
+      };
+    if (share >= 10)
+      return {
+        label: "Medio",
+        className: "bg-yellow-500/15 text-yellow-700 border-yellow-500/30",
+      };
+    return {
+      label: "Bajo",
+      className: "bg-emerald-500/15 text-emerald-600 border-emerald-500/30",
+    };
+  };
+
+  const pieData = buckets
+    .filter((b) => b.value > 0)
+    .map((b) => ({ name: b.problem, value: Math.round(b.value), color: b.color }));
 
   const numberOrEmpty = (v: string): number | "" =>
     v === "" ? "" : Math.max(0, Number(v));
