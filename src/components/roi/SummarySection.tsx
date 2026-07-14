@@ -64,7 +64,7 @@ export function SummarySection() {
                   ROI
                 </p>
                 <p className="mt-1 text-3xl font-bold text-foreground">
-                  {results.roiPct !== null ? `${results.roiPct.toFixed(0)}%` : "—"}
+                  {results.roiPct !== null ? results.roiPct.toFixed(0) : "—"}
                 </p>
               </div>
               <div>
@@ -210,7 +210,7 @@ export function SummarySection() {
                       results.totalSavings,
                     )}\n${
                       results.roiPct !== null
-                        ? `ROI esperado: ${results.roiPct.toFixed(0)}%\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
+                        ? `ROI esperado: ${results.roiPct.toFixed(0)}\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
                         : ""
                     }\nMe gustaría agendar una conversación para profundizar el diagnóstico.`,
                   )}`}

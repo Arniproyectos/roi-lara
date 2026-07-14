@@ -471,9 +471,7 @@ export function ResultsSection() {
                   ROI
                 </div>
                 <p className="mt-2 text-2xl font-bold text-foreground">
-                  {results.roiPct !== null
-                    ? `${results.roiPct.toFixed(0)}%`
-                    : "—"}
+                  {results.roiPct !== null ? results.roiPct.toFixed(0) : "—"}
                 </p>
               </div>
               <div className="rounded-lg border border-border/60 bg-background p-4">
