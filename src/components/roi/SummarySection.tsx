@@ -64,7 +64,7 @@ export function SummarySection() {
                   ROI
                 </p>
                 <p className="mt-1 text-3xl font-bold text-foreground">
-                  {results.roiPct !== null ? `${results.roiPct.toFixed(0)}%` : "—"}
+                  {results.roiPct !== null ? results.roiPct.toFixed(0) : "—"}
                 </p>
               </div>
               <div>
