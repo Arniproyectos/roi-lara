@@ -339,6 +339,110 @@ export function ResultsSection() {
           })}
         </div>
 
+        {/* Distribución de pérdidas + tabla ejecutiva */}
+        {pieData.length > 0 && (
+          <div className="grid gap-4 lg:grid-cols-5">
+            <div className="lg:col-span-2 rounded-xl border border-border/60 bg-card p-4">
+              <p className="text-sm font-semibold text-foreground">
+                Distribución de pérdidas económicas
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Dónde se concentra el valor recuperable.
+              </p>
+              <div className="h-64 mt-3">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={pieData}
+                      dataKey="value"
+                      nameKey="name"
+                      innerRadius={45}
+                      outerRadius={80}
+                      paddingAngle={2}
+                    >
+                      {pieData.map((entry, i) => (
+                        <Cell key={i} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      formatter={(v: number) => formatUSD(v)}
+                      contentStyle={{
+                        background: "hsl(var(--background))",
+                        border: "1px solid hsl(var(--border))",
+                        borderRadius: 8,
+                        fontSize: 12,
+                      }}
+                    />
+                    <Legend
+                      verticalAlign="bottom"
+                      height={36}
+                      wrapperStyle={{ fontSize: 11 }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+
+            <div className="lg:col-span-3 rounded-xl border border-border/60 bg-card p-4 overflow-x-auto">
+              <p className="text-sm font-semibold text-foreground">
+                Informe ejecutivo por driver
+              </p>
+              <p className="text-xs text-muted-foreground mt-0.5">
+                Costo anual actual, ahorro potencial y prioridad de acción.
+              </p>
+              <Table className="mt-3">
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-xs">Problema</TableHead>
+                    <TableHead className="text-xs text-right">Costo anual</TableHead>
+                    <TableHead className="text-xs text-right">Ahorro potencial</TableHead>
+                    <TableHead className="text-xs text-center">Prioridad</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {buckets.map((b) => {
+                    const share =
+                      results.totalSavings > 0
+                        ? (b.value / results.totalSavings) * 100
+                        : 0;
+                    const prio = priorityFor(share);
+                    return (
+                      <TableRow key={b.key}>
+                        <TableCell className="text-sm font-medium">
+                          {b.problem}
+                        </TableCell>
+                        <TableCell className="text-sm text-right tabular-nums">
+                          {formatUSD(b.annualCost)}
+                        </TableCell>
+                        <TableCell className="text-sm text-right tabular-nums font-semibold text-foreground">
+                          {formatUSD(b.value)}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <span
+                            className={`inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium ${prio.className}`}
+                          >
+                            {prio.label}
+                          </span>
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
+                  <TableRow className="border-t-2">
+                    <TableCell className="text-sm font-semibold">Total</TableCell>
+                    <TableCell className="text-sm text-right font-semibold tabular-nums">
+                      {formatUSD(totalAnnualCost)}
+                    </TableCell>
+                    <TableCell className="text-sm text-right font-semibold tabular-nums text-primary">
+                      {formatUSD(results.totalSavings)}
+                    </TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </div>
+          </div>
+        )}
+
         {/* Inversión + ROI */}
         <div className="rounded-xl border border-border/60 bg-muted/20 p-5 space-y-4">
           <div className="grid gap-2 sm:max-w-xs">
