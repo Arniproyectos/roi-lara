@@ -16,6 +16,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
   ArrowLeft,
   ArrowRight,
   TrendingUp,
@@ -26,7 +34,9 @@ import {
   DollarSign,
   CalendarClock,
   Info,
+  Sparkles,
 } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
 
 
 export function ResultsSection() {
