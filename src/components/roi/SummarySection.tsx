@@ -210,7 +210,7 @@ export function SummarySection() {
                       results.totalSavings,
                     )}\n${
                       results.roiPct !== null
-                        ? `ROI esperado: ${results.roiPct.toFixed(0)}%\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
+                        ? `ROI esperado: ${results.roiPct.toFixed(0)}\nPayback: ${results.paybackMonths?.toFixed(1)} meses\n`
                         : ""
                     }\nMe gustaría agendar una conversación para profundizar el diagnóstico.`,
                   )}`}
