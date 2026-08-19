@@ -25,8 +25,7 @@ export function HiringSection() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isValid =
-    Number(hiring.hiresPerYear) > 0 && Number(hiring.hrHourlyCost) > 0;
+  const isValid = Number(hiring.hiresPerYear) > 0;
 
   const numberOrEmpty = (v: string): number | "" => (v === "" ? "" : Math.max(0, Number(v)));
 
@@ -66,6 +65,7 @@ export function HiringSection() {
             <Label htmlFor="hrHourlyCost" className="flex items-center gap-2">
               <DollarSign className="h-4 w-4 text-muted-foreground" />
               Costo hora del equipo de HR (USD)
+              <span className="text-xs font-normal text-muted-foreground">(opcional)</span>
             </Label>
             <Input
               id="hrHourlyCost"
@@ -76,7 +76,7 @@ export function HiringSection() {
               onChange={(e) => update("hrHourlyCost", numberOrEmpty(e.target.value))}
             />
             <p className="text-xs text-muted-foreground">
-              Costo cargado por hora de un reclutador o miembro del equipo de HR.
+              Opcional: si no lo sabés, podés continuar sin completarlo.
             </p>
           </div>
 
