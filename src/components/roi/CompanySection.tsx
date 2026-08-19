@@ -32,10 +32,12 @@ export function CompanySection() {
           <Sparkles className="h-4 w-4" />
           <span className="text-xs font-semibold uppercase tracking-wider">Paso 1 de 4</span>
         </div>
-        <h2 className="text-2xl font-bold text-foreground">Empecemos por lo esencial</h2>
+        <h2 className="text-2xl font-bold text-foreground">
+          Descubrí el ROI de tu inversión en RRHH
+        </h2>
         <p className="text-sm text-muted-foreground mt-1 max-w-lg">
-          Solo 4 datos y en menos de 1 minuto vas a ver cuánto está costando hoy la rotación en tu
-          organización.
+          En menos de 1 minuto y con solo 4 datos, vas a ver cuánto valor devuelve la plataforma a
+          tu organización.
         </p>
         <div className="flex flex-wrap items-center gap-4 mt-4 text-xs text-muted-foreground">
           <span className="inline-flex items-center gap-1.5">
