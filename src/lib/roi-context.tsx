@@ -11,7 +11,6 @@ export interface CompanyData {
 export interface HiringData {
   hiresPerYear: number | "";
   hrHourlyCost: number | "";
-  costPerHire: number | "";
 }
 
 export interface ImpactData {
@@ -29,12 +28,10 @@ export interface RoiResults {
   turnoverRate: number;
   hiresPerYear: number;
   hrHourlyCost: number;
-  costPerHire: number;
   // Savings buckets (USD/año)
   turnoverSavings: number;
-  costPerHireSavings: number;
   hrHoursSavings: number;
-  
+
   productivitySavings: number;
   totalSavings: number;
   // Investment-derived
@@ -108,7 +105,6 @@ const defaultCompany: CompanyData = {
 const defaultHiring: HiringData = {
   hiresPerYear: "",
   hrHourlyCost: "",
-  costPerHire: "",
 };
 
 export const defaultImpact: ImpactData = {
@@ -133,17 +129,12 @@ function computeResults(
   const hiresPerYear = Number(hiring.hiresPerYear) || 0;
   const daysToHire = 0;
   const hrHourlyCost = Number(hiring.hrHourlyCost) || 0;
-  const costPerHire = Number(hiring.costPerHire) || 0;
 
   // Costo de reemplazo ≈ 50% del salario anual (referencia SHRM)
   const replacementCost = avgSalary * 0.5;
   const leavers = employees * (turnoverRate / 100);
   const turnoverSavings =
     leavers * replacementCost * (impact.turnoverReductionPct / 100);
-
-  // Ahorro directo en costo por contratación
-  const costPerHireSavings =
-    hiresPerYear * costPerHire * (impact.costPerHireReductionPct / 100);
 
   // Horas de HR ahorradas: asumimos ~2h de trabajo HR por día de proceso
   const hrHoursPerHire = daysToHire * 2;
@@ -153,18 +144,12 @@ function computeResults(
     hrHourlyCost *
     (impact.hrHoursSavedPct / 100);
 
-
-
-
   // Ganancia de productividad en nuevas incorporaciones (ventana de 3 meses)
   const productivitySavings =
     hiresPerYear * avgSalary * (impact.productivityGainPct / 100) * (3 / 12);
 
   const totalSavings =
-    turnoverSavings +
-    costPerHireSavings +
-    hrHoursSavings +
-    productivitySavings;
+    turnoverSavings + hrHoursSavings + productivitySavings;
 
   const inv = Number(investment) || 0;
   const netBenefit = totalSavings - inv;
@@ -178,9 +163,7 @@ function computeResults(
     turnoverRate,
     hiresPerYear,
     hrHourlyCost,
-    costPerHire,
     turnoverSavings,
-    costPerHireSavings,
     hrHoursSavings,
     productivitySavings,
     totalSavings,

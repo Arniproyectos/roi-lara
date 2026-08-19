@@ -121,10 +121,6 @@ export function SummarySection() {
                 label="Costo hora HR"
                 value={formatUSD(results.hrHourlyCost)}
               />
-              <SummaryRow
-                label="Costo por contratación"
-                value={formatUSD(results.costPerHire)}
-              />
             </dl>
           </div>
 
@@ -139,11 +135,6 @@ export function SummarySection() {
               <BreakdownRow
                 label="Menor rotación"
                 value={results.turnoverSavings}
-                total={results.totalSavings}
-              />
-              <BreakdownRow
-                label="Costo por contratación"
-                value={results.costPerHireSavings}
                 total={results.totalSavings}
               />
               <BreakdownRow
