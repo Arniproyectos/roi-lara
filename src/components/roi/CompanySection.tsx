@@ -1,9 +1,9 @@
 import { useRoi } from "@/lib/roi-context";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Building2, Users, DollarSign, TrendingDown, Briefcase, ArrowRight } from "lucide-react";
+import { ArrowRight, Clock, Lock, Sparkles } from "lucide-react";
 
 export function CompanySection() {
   const { company, setCompany, setCurrentSection } = useRoi();
@@ -20,24 +20,36 @@ export function CompanySection() {
 
   const numberOrEmpty = (v: string): number | "" => (v === "" ? "" : Math.max(0, Number(v)));
 
+  const leavers =
+    Number(company.employees) > 0 && Number(company.turnoverRate) > 0
+      ? Math.round(Number(company.employees) * (Number(company.turnoverRate) / 100))
+      : 0;
+
   return (
-    <Card className="border-border/60 shadow-sm">
-      <CardHeader className="space-y-2">
-        <div className="flex items-center gap-2 text-primary">
+    <Card className="border-border/60 shadow-sm overflow-hidden">
+      <div className="bg-secondary/60 px-6 py-5 sm:px-8 border-b border-border/60">
+        <div className="flex items-center gap-2 text-primary mb-2">
+          <Sparkles className="h-4 w-4" />
           <span className="text-xs font-semibold uppercase tracking-wider">Paso 1 de 4</span>
         </div>
-        <CardTitle className="text-2xl">Diagnóstico de la empresa</CardTitle>
-        <CardDescription>
-          Comenzamos conociendo tu organización. Estos datos nos permiten dimensionar el impacto
-          económico actual de la rotación y la ineficiencia en RRHH.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
+        <h2 className="text-2xl font-bold text-foreground">Empecemos por lo esencial</h2>
+        <p className="text-sm text-muted-foreground mt-1 max-w-lg">
+          Solo 4 datos y en menos de 1 minuto vas a ver cuánto está costando hoy la rotación en tu
+          organización.
+        </p>
+        <div className="flex flex-wrap items-center gap-4 mt-4 text-xs text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5" /> ~45 segundos
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Lock className="h-3.5 w-3.5" /> No guardamos tus datos
+          </span>
+        </div>
+      </div>
+
+      <CardContent className="space-y-6 pt-6 sm:px-8">
         <div className="grid gap-2">
-          <Label htmlFor="companyName" className="flex items-center gap-2">
-            <Building2 className="h-4 w-4 text-muted-foreground" />
-            Nombre de la empresa
-          </Label>
+          <Label htmlFor="companyName">¿Cómo se llama tu empresa?</Label>
           <Input
             id="companyName"
             placeholder="Ej: Acme Corp"
@@ -46,25 +58,9 @@ export function CompanySection() {
           />
         </div>
 
-        <div className="grid gap-2">
-          <Label htmlFor="industry" className="flex items-center gap-2">
-            <Briefcase className="h-4 w-4 text-muted-foreground" />
-            Industria <span className="text-muted-foreground font-normal">(opcional)</span>
-          </Label>
-          <Input
-            id="industry"
-            placeholder="Ej: Retail, Tecnología, Salud..."
-            value={company.industry}
-            onChange={(e) => update("industry", e.target.value.slice(0, 80))}
-          />
-        </div>
-
         <div className="grid gap-6 sm:grid-cols-2">
           <div className="grid gap-2">
-            <Label htmlFor="employees" className="flex items-center gap-2">
-              <Users className="h-4 w-4 text-muted-foreground" />
-              Nº total de empleados
-            </Label>
+            <Label htmlFor="employees">Nº de empleados</Label>
             <Input
               id="employees"
               type="number"
@@ -73,14 +69,10 @@ export function CompanySection() {
               value={company.employees}
               onChange={(e) => update("employees", numberOrEmpty(e.target.value))}
             />
-            <p className="text-xs text-muted-foreground">Plantilla total actual.</p>
           </div>
 
           <div className="grid gap-2">
-            <Label htmlFor="avgSalary" className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4 text-muted-foreground" />
-              Salario promedio anual (USD)
-            </Label>
+            <Label htmlFor="avgSalary">Salario promedio anual (USD)</Label>
             <Input
               id="avgSalary"
               type="number"
@@ -89,15 +81,11 @@ export function CompanySection() {
               value={company.avgSalary}
               onChange={(e) => update("avgSalary", numberOrEmpty(e.target.value))}
             />
-            <p className="text-xs text-muted-foreground">Salario bruto promedio por empleado.</p>
           </div>
         </div>
 
         <div className="grid gap-2">
-          <Label htmlFor="turnoverRate" className="flex items-center gap-2">
-            <TrendingDown className="h-4 w-4 text-muted-foreground" />
-            Tasa de rotación anual (%)
-          </Label>
+          <Label htmlFor="turnoverRate">Tasa de rotación anual (%)</Label>
           <Input
             id="turnoverRate"
             type="number"
@@ -109,15 +97,19 @@ export function CompanySection() {
             onChange={(e) => update("turnoverRate", numberOrEmpty(e.target.value))}
           />
           <p className="text-xs text-muted-foreground">
-            % de empleados que dejan la empresa al año. Si no lo sabes con precisión, una estimación
-            es suficiente.
+            Una estimación aproximada es más que suficiente.
           </p>
         </div>
 
-        <div className="flex items-center justify-between pt-4 border-t border-border/60">
-          <p className="text-xs text-muted-foreground">
-            Tus datos se usan solo para este diagnóstico y no se almacenan.
-          </p>
+        {leavers > 0 && (
+          <div className="rounded-xl bg-accent/10 border border-accent/20 px-4 py-3 text-sm text-foreground">
+            Con esos datos, alrededor de{" "}
+            <span className="font-semibold text-accent">{leavers} personas</span> dejan tu empresa
+            cada año. Veamos cuánto cuesta eso.
+          </div>
+        )}
+
+        <div className="flex justify-end pt-2 border-t border-border/60">
           <Button
             onClick={() => setCurrentSection(2)}
             disabled={!isValid}
