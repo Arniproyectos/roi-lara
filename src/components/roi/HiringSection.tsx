@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { UserPlus, DollarSign, Receipt, ArrowRight, ArrowLeft } from "lucide-react";
+import { UserPlus, DollarSign, ArrowRight, ArrowLeft } from "lucide-react";
 import { useEffect } from "react";
 
 export function HiringSection() {
@@ -26,9 +26,7 @@ export function HiringSection() {
   }, []);
 
   const isValid =
-    Number(hiring.hiresPerYear) > 0 &&
-    Number(hiring.hrHourlyCost) > 0 &&
-    Number(hiring.costPerHire) >= 0;
+    Number(hiring.hiresPerYear) > 0 && Number(hiring.hrHourlyCost) > 0;
 
   const numberOrEmpty = (v: string): number | "" => (v === "" ? "" : Math.max(0, Number(v)));
 
@@ -82,23 +80,6 @@ export function HiringSection() {
             </p>
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="costPerHire" className="flex items-center gap-2">
-              <Receipt className="h-4 w-4 text-muted-foreground" />
-              Costo actual por contratación (USD)
-            </Label>
-            <Input
-              id="costPerHire"
-              type="number"
-              min={0}
-              placeholder="Ej: 4000"
-              value={hiring.costPerHire}
-              onChange={(e) => update("costPerHire", numberOrEmpty(e.target.value))}
-            />
-            <p className="text-xs text-muted-foreground">
-              Suma estimada: job boards, agencias, assessments, onboarding, etc.
-            </p>
-          </div>
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-border/60">

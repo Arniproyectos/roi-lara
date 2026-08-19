@@ -44,7 +44,6 @@ export function ResultsSection() {
 
   const turnoverAnnualCost =
     results.employees * (results.turnoverRate / 100) * results.avgSalary * 0.5;
-  const cphAnnualCost = results.hiresPerYear * results.costPerHire;
   const hrAnnualCost =
     impact.hrHoursSavedPct > 0
       ? results.hrHoursSavings / (impact.hrHoursSavedPct / 100)
@@ -62,16 +61,6 @@ export function ResultsSection() {
       color: "hsl(var(--primary))",
       hint: "Menos reemplazos = menos costo de pérdida y recontratación.",
       problem: "Rotación de empleados",
-    },
-    {
-      key: "cph",
-      label: "Costo de contratación reducido",
-      value: results.costPerHireSavings,
-      annualCost: cphAnnualCost,
-      icon: Wallet,
-      color: "hsl(var(--accent))",
-      hint: "Menos gasto en agencias, job boards y procesos repetidos.",
-      problem: "Costos de contratación",
     },
     {
       key: "hr",
@@ -251,20 +240,7 @@ export function ResultsSection() {
               />
 
               <MethodBlock
-                title="2. Reducción de costos de contratación"
-                formula="Contrataciones/año × Costo por contratación × % reducción"
-                variables={[
-                  `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
-                  `Costo por contratación: ${formatUSD(results.costPerHire)}`,
-                ]}
-                benchmark="Costo promedio por contratación en EE.UU. ≈ USD 4.700."
-                source="SHRM 2022 — Talent Access Report"
-                assumption={`Reducción aplicada: ${impact.costPerHireReductionPct}% (escenario ${SCENARIOS[scenario].label}).`}
-                result={results.costPerHireSavings}
-              />
-
-              <MethodBlock
-                title="3. Recuperación de horas de HR"
+                title="2. Recuperación de horas de HR"
                 formula="Contrataciones/año × Horas HR por proceso × Costo hora HR × % ahorro"
                 variables={[
                   `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
@@ -277,7 +253,7 @@ export function ResultsSection() {
               />
 
               <MethodBlock
-                title="4. Ganancia de productividad / engagement"
+                title="3. Ganancia de productividad / engagement"
                 formula="Contrataciones/año × Salario promedio × % ganancia × (3/12)"
                 variables={[
                   `Contrataciones/año: ${results.hiresPerYear.toLocaleString()}`,
